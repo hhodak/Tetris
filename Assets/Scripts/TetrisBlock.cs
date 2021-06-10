@@ -7,24 +7,24 @@ public class TetrisBlock : MonoBehaviour
 {
     public Vector3 rotationPoint;
     float previousTime;
-    public float fallTime = 1f;
+    public float fallTime = 0.5f;
     public static int height = 21;
     public static int width = 10;
     static Transform[,] grid = new Transform[width, height];
     Button buttonRotate;
     Button buttonMoveLeft;
     Button buttonMoveRight;
-    Button buttonDown;
     Button buttonPause;
     bool gamePaused = false;
+    Slider sliderSpeed;
 
     void Start()
     {
         buttonRotate = GameObject.Find("ButtonRotate").GetComponent<Button>();
         buttonMoveLeft = GameObject.Find("ButtonLeft").GetComponent<Button>();
         buttonMoveRight = GameObject.Find("ButtonRight").GetComponent<Button>();
-        buttonDown = GameObject.Find("ButtonDown").GetComponent<Button>();
         buttonPause = GameObject.Find("ButtonPause").GetComponent<Button>();
+        sliderSpeed = GameObject.Find("SliderSpeed").GetComponent<Slider>();
 
         AddListeners();
         buttonPause.onClick.AddListener(() => PauseGame());
@@ -32,6 +32,7 @@ public class TetrisBlock : MonoBehaviour
 
     void Update()
     {
+        fallTime = 1 - sliderSpeed.value;
         if (transform.position.y < 21)
         {
             if (!gamePaused)
@@ -210,15 +211,13 @@ public class TetrisBlock : MonoBehaviour
         buttonRotate.onClick.AddListener(() => RotateTetromino());
         buttonMoveLeft.onClick.AddListener(() => MoveTetrominoLeft());
         buttonMoveRight.onClick.AddListener(() => MoveTetrominoRight());
-        buttonDown.onClick.AddListener(() => MoveDownTetromino());
     }
 
     void RemoveListeners()
     {
-        buttonRotate.onClick.RemoveListener(() => RotateTetromino());
-        buttonMoveLeft.onClick.RemoveListener(() => MoveTetrominoLeft());
-        buttonMoveRight.onClick.RemoveListener(() => MoveTetrominoRight());
-        buttonDown.onClick.RemoveListener(() => MoveDownTetromino());
+        buttonRotate.onClick.RemoveAllListeners();
+        buttonMoveLeft.onClick.RemoveAllListeners();
+        buttonMoveRight.onClick.RemoveAllListeners();
     }
     #endregion
 }
