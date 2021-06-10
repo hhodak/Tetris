@@ -160,7 +160,7 @@ public class TetrisBlock : MonoBehaviour
             if (grid[i, 20] != null)
             {
                 gamePaused = true;
-                Debug.Log("Kraj igre!");
+                GameObject.Find("GameManager").GetComponent<GameManager>().GameOver();
             }
         }
     }
@@ -193,12 +193,14 @@ public class TetrisBlock : MonoBehaviour
         if (!ValidMove())
         {
             transform.position -= new Vector3(0, -1, 0);
-            AddToGrid();
-            CheckForLines();
-            this.enabled = false;
             CheckForGameEnd();
             if (!gamePaused)
+            {
+                AddToGrid();
+                CheckForLines();
+                this.enabled = false;
                 FindObjectOfType<SpawnTetromino>().NewTetromino();
+            }
         }
         previousTime = Time.time;
 
