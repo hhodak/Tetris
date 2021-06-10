@@ -14,6 +14,10 @@ public class PointsCalculator : MonoBehaviour
 
     public void AddPoints(int rowNumber)
     {
+        if (rowNumber > 0)
+        {
+            GetComponent<AudioSource>().Play();
+        }
         int currentPoints = int.Parse(pointsText.text);
         switch (rowNumber)
         {

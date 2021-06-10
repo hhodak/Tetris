@@ -198,6 +198,7 @@ public class TetrisBlock : MonoBehaviour
             {
                 AddToGrid();
                 CheckForLines();
+                RemoveListeners();
                 this.enabled = false;
                 FindObjectOfType<SpawnTetromino>().NewTetromino();
             }
